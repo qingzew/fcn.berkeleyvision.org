@@ -84,7 +84,6 @@ class VOCSegDataLayer(caffe.Layer):
             if self.idx == len(self.indices):
                 self.idx = 0
 
-
     def backward(self, top, propagate_down, bottom):
         pass
 
@@ -98,6 +97,7 @@ class VOCSegDataLayer(caffe.Layer):
         - transpose to channel x height x width order
         """
         im = Image.open('{}/JPEGImages/{}.jpg'.format(self.voc_dir, idx))
+        im = im.resize((480, 320), Image.BILINEAR)
         in_ = np.array(im, dtype=np.float32)
         in_ = in_[:,:,::-1]
         in_ -= self.mean
@@ -111,7 +111,9 @@ class VOCSegDataLayer(caffe.Layer):
         The leading singleton dimension is required by the loss.
         """
         im = Image.open('{}/SegmentationClass/{}.png'.format(self.voc_dir, idx))
+        im = im.resize((480, 320), Image.BILINEAR)
         label = np.array(im, dtype=np.uint8)
+        label[label > 0] = 1
         label = label[np.newaxis, ...]
         return label
 
