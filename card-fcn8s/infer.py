@@ -58,7 +58,43 @@ for line in open('../data/card/ImageSets/Segmentation/val.txt'):
         rect = cv2.minAreaRect(contour)
         box = cv2.boxPoints(rect)
         box = np.int0(box)
+        print box
         cv2.drawContours(im_orgin, [box], 0, (0, 0, 255), 2)
 
 
     cv2.imwrite(os.path.join('results', line.strip() + '.jpg'), im_orgin)
+
+
+# load image, switch to BGR, subtract mean, and make dims C x H x W for Caffe
+# im = Image.open('./740450095084068686.jpg')
+# im = im.resize((480, 320), Image.BILINEAR)
+# im_orgin = np.array(im.copy())
+
+# in_ = np.array(im, dtype = np.float32)
+# in_ = in_[:,:,::-1]
+# in_ -= np.array((106., 120., 114.))
+# in_ = in_.transpose((2, 0, 1))
+
+# # shape for input (data blob is N x C x H x W), set data
+# net.blobs['data'].reshape(1, *in_.shape)
+# net.blobs['data'].data[...] = in_
+
+# # run net and take argmax for prediction
+# net.forward()
+# # out = net.blobs['score_new'].data[0].argmax(axis = 0)
+# out = net.blobs['prob'].data[0].argmax(axis = 0)
+
+# cv2.imwrite(os.path.join('results', 'a.png'), out)
+
+# out = np.array(out, dtype = np.uint8)
+# im2, contours, hierarchy = cv2.findContours(out, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+# for contour in contours:
+#     rect = cv2.minAreaRect(contour)
+#     box = cv2.boxPoints(rect)
+#     box = np.int0(box)
+#     print box
+#     cv2.drawContours(im_orgin, [box], 0, (0, 0, 255), 2)
+
+
+# cv2.imwrite(os.path.join('results', 'a.jpg'), im_orgin)
