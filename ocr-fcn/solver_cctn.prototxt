@@ -1,0 +1,27 @@
+train_net: "train_cctn.prototxt"
+test_net: "val.prototxt"
+test_iter: 736
+# make test net, but don't invoke it from the solver itself
+test_interval: 999999999
+display: 100
+average_loss: 20
+
+base_lr: 1e-4
+lr_policy: "poly"
+power: 0.6
+momentum: 0.9
+
+#lr_policy: "fixed"
+#lr for unnormalized softmax
+#base_lr: 1e-2
+# high momentum
+#momentum: 0.99
+
+# no gradient accumulation
+iter_size: 1
+
+max_iter: 5000000
+weight_decay: 0.0005
+snapshot: 5000
+snapshot_prefix: "snapshot/cctn"
+test_initialization: false
